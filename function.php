@@ -47,5 +47,21 @@ class MyCrud
             return $employeeData;
         }
     }
+
+    public function update_data($data)
+    {
+        $emp_name = $data['u_emp_name'];
+        $emp_Id = $data['u_emp_id'];
+        $idNo = $data['emp_id'];
+        $emp_img = $_FILES['u_emp_img']['name'];
+        $tmp_name = $_FILES['u_emp_img']['tmp_name'];
+
+        $query = "UPDATE employee SET emp_name='$emp_name', emp_Id='$emp_Id', emp_img='$emp_img' WHERE Id=$idNo";
+
+        if (mysqli_query($this->conn, $query)) {
+            move_uploaded_file($tmp_name, "upload/" . $emp_img);
+            return "Information updated successfully";
+        }
+    }
 }
 ?>    
