@@ -29,5 +29,23 @@ class MyCrud
             return "Information added successfully!!";
         }
     }
+    public function display_data()
+    {
+        $query = "SELECT * FROM employee";
+        if (mysqli_query($this->conn, $query)) {
+            $return_data = mysqli_query($this->conn, $query);
+            return $return_data;
+        }
+    }
+
+    public function display_data_by_Id($Id)
+    {
+        $query = "SELECT * FROM employee WHERE Id=$Id";
+        if (mysqli_query($this->conn, $query)) {
+            $return_data = mysqli_query($this->conn, $query);
+            $employeeData = mysqli_fetch_assoc($return_data);
+            return $employeeData;
+        }
+    }
 }
 ?>    

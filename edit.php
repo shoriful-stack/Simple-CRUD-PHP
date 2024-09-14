@@ -2,10 +2,18 @@
 include("function.php");
 $objCrudAdmin = new MyCrud();
 
-if(isset($_POST['btn'])){
-    $return_msg = $objCrudAdmin->add_data($_POST);
-}
 $employee = $objCrudAdmin->display_data();
+
+if($_GET['status']){
+    if($_GET['status']=='edit'){
+        $Id = $_GET['Id'];
+        $return_data= $objCrudAdmin->display_data_by_Id($Id);
+    }
+}
+
+if(isset($_POST['u_btn'])){
+    $return_msg = $objCrudAdmin->update_data($_POST);
+}
 ?>
 
 <!doctype html>
@@ -25,42 +33,15 @@ $employee = $objCrudAdmin->display_data();
 <body>
     <div class="container my-4 p-4 shadow">
         <h2><a style="text-decoration: none;" href="index.php">HS Engineering Employees database</a></h2>
-        <?php if(isset($del_msg)){echo $del_msg;} ?>
         <form class="form" action="" method="post" enctype="multipart/form-data">
             <?php if(isset($return_msg)){echo $return_msg;} ?>
-            <input class="form-control mb-2" type="text" name="emp_name" placeholder="Enter Your Name">
-            <input class="form-control mb-2" type="number" name="emp_Id" placeholder="Enter Your ID">
+            <input class="form-control mb-2" type="text" name="u_emp_name" value="<?php echo $return_data['emp_name']; ?>">
+            <input class="form-control mb-2" type="number" name="u_emp_id" value="<?php echo $return_data['emp_Id'];?>">
             <label for="image">Upload Your Image</label>
-            <input class="form-control mb-4" type="file" name="emp_img">
-            <input class="form-control bg-warning" type="submit" name="btn" value="Add Information">
+            <input class="form-control mb-4" type="file" name="u_emp_img">
+            <input type="hidden" name="emp_id" value="<?php echo $return_data['Id']; ?>">
+            <input class="form-control bg-warning" type="submit" name="u_btn" value="Update Information">
         </form>
-    </div>
-    <div class="container my-4 p-4 shadow">
-        <table class="table table-responsive">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Name</th>
-                    <th>Employee ID</th>
-                    <th>Image</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php while($emp= mysqli_fetch_assoc($employee)){ ?>
-                    <tr>
-                        <td><?php echo $emp['Id']; ?></td>
-                        <td><?php echo $emp['emp_name']; ?></td>
-                        <td><?php echo $emp['emp_Id']; ?></td>
-                        <td><img style="height: 50px; width: 50px" src="upload/<?php echo $emp['emp_img']; ?>" alt=""></td>
-                        <td>
-                            <a class="btn btn-success" href="edit.php?status=edit&&Id=<?php echo $emp['Id']; ?>">Edit</a>
-                            <a class="btn btn-danger" href="?status=delete&&Id=<?php echo $emp['Id']; ?>">Delete</a>
-                        </td>
-                    </tr>
-                    <?php }?>
-            </tbody>
-        </table>
     </div>
 
     <!-- Optional JavaScript; choose one of the two! -->
