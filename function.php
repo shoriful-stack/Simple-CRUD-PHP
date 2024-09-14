@@ -63,5 +63,43 @@ class MyCrud
             return "Information updated successfully";
         }
     }
+
+    public function delete_data($Id)
+    {
+        // $catch_img = "SELECT * FROM employee WHERE Id=$Id";
+        // $deleted_emp_info = mysqli_query($this->conn, $catch_img);
+        // Check if the query returned any result
+        // if ($deleted_emp_info && mysqli_num_rows($deleted_emp_info) > 0) {
+        //     $fetched_deleted_data = mysqli_fetch_assoc($deleted_emp_info);
+        //     $delete_img_data = $fetched_deleted_data['emp_img'];
+            
+        //     // Check if image path is not empty and file exists
+        //     if(!empty($delete_img_data) && file_exists('upload/'.$delete_img_data)){
+        //         unlink('upload/' . $delete_img_data);
+        //     }
+
+        //     $query = "DELETE FROM employee WHERE Id=$Id";
+        //     if (mysqli_query($this->conn, $query)) {
+        //         return "Information deleted successfully";
+        //     }
+        // }
+
+        $catch_img = "SELECT * FROM employee WHERE Id=$Id";
+        $query = mysqli_query($this->conn, $catch_img);
+        // check if the query returned any result
+        if($query && mysqli_num_rows($query) > 0){
+            $fetch_deleted_data = mysqli_fetch_assoc($query);
+            $deleted_img_data = $fetch_deleted_data['emp_img'];
+
+            // check if image path is not empty and file exists
+            if(!empty($deleted_img_data) && file_exists('upload/'.$deleted_img_data)){
+                unlink('upload/'.$deleted_img_data);
+            }
+            $query = "DELETE FROM employee WHERE Id=$Id";
+            if(mysqli_query($this->conn, $query)){
+                return "Information deleted successfully";
+            }
+        }
+    }
 }
 ?>    

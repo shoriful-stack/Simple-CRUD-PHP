@@ -5,7 +5,15 @@ $objCrudAdmin = new MyCrud();
 if(isset($_POST['btn'])){
     $return_msg = $objCrudAdmin->add_data($_POST);
 }
+
 $employee = $objCrudAdmin->display_data();
+
+if(isset($_GET['status'])){
+    if($_GET['status']=='delete'){
+        $Id = $_GET['Id'];
+        $del_msg = $objCrudAdmin->delete_data($Id);
+    }
+}
 ?>
 
 <!doctype html>
