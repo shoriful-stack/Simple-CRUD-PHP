@@ -1,3 +1,11 @@
+<?php 
+include("function.php");
+$objCrudAdmin = new MyCrud();
+
+if(isset($_POST['btn'])){
+    $return_msg = $objCrudAdmin->add_data($_POST);
+}
+?>
 
 <!doctype html>
 <html lang="en">
